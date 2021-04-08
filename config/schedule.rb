@@ -10,7 +10,9 @@
 
 every 10.minutes do
   command "ruby /usr/src/app/fred-hutch.rb"
-  command "ruby /usr/src/app/rite-aid-vaccine.rb"
+  command "ruby /usr/src/app/rite-aid-v2.rb 98027"
+  command "ruby /usr/src/app/rite-aid-v2.rb 98144"
+  command "ruby /usr/src/app/rite-aid-v2.rb 98402"
   command "ruby /usr/src/app/cvs.rb"
   command "ruby /usr/src/app/albertsons.rb"
   command "ruby /usr/src/app/prepmod.rb"
