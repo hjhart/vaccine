@@ -8,10 +8,6 @@
 # set :output, "/path/to/my/cron_log.log"
 #
 
-every 1.minutes do
-  command "ruby /usr/src/app/fred-hutch.rb"
-end
-
 every 10.minutes do
   command "ruby /usr/src/app/fred-hutch.rb"
   command "ruby /usr/src/app/rite-aid-vaccine.rb"

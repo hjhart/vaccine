@@ -1,4 +1,4 @@
-require './shared'
+require_relative './shared'
 # QFC Checker (GET )
 def send_request
   uri = URI('https://www.qfc.com/rx/api/anonymous/scheduler/slots/locationsearch/98144/2021-04-04/2021-04-14/20?appointmentReason=129&benefitCode=null')

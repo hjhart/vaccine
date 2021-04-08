@@ -1,4 +1,4 @@
-require './shared'
+require_relative './shared'
 
 # Albertsons / Safeway (GET )
 def send_request

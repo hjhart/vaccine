@@ -1,4 +1,4 @@
-require './shared'
+require_relative './shared'
 # CVS washington checker (GET )
 def check_csv_availability
   uri = URI('https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.WA.json?vaccineinfo')

@@ -1,4 +1,4 @@
-require './shared'
+require_relative './shared'
 
 def availabilityForStore(storeNumber)
   uri = URI("https://www.riteaid.com/services/ext/v2/vaccine/checkSlots?storeNumber=#{storeNumber}")

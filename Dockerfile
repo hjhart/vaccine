@@ -1,24 +1,31 @@
-FROM ruby:2.7.2
-RUN apt-get update && apt-get install -q -y git tar openssl xvfb chromium \
-  firefox-esr libsqlite3-dev sqlite3
+FROM ruby:2.7.2-alpine AS builder
+RUN apk add --no-cache \
+  build-base libffi-dev \
+  nodejs yarn tzdata \
+  postgresql-dev postgresql-client zlib-dev libxml2-dev libxslt-dev readline-dev bash \
+  #
+  # For testing
+  chromium chromium-chromedriver python3 python3-dev py3-pip \
+  #
+  # Nice-to-haves
+  git vim \
+  #
+  # Fixes watch file issues with things like HMR
+  libnotify-dev
 
-RUN cd /tmp && \
-  wget https://chromedriver.storage.googleapis.com/2.39/chromedriver_linux64.zip && \
-  unzip chromedriver_linux64.zip -d /usr/local/bin && \
-  rm -f chromedriver_linux64.zip
 
-RUN cd /tmp && \
-  wget https://github.com/mozilla/geckodriver/releases/download/v0.21.0/geckodriver-v0.21.0-linux64.tar.gz && \
-  tar -xvzf geckodriver-v0.21.0-linux64.tar.gz -C /usr/local/bin && \
-  rm -f geckodriver-v0.21.0-linux64.tar.gz
+RUN pip3 install -U selenium
 
-RUN apt install -q -y chrpath libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev && \
-  cd /tmp && \
-  wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
-  tar -xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
-  mv phantomjs-2.1.1-linux-x86_64 /usr/local/lib && \
-  ln -s /usr/local/lib/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin && \
-  rm -f phantomjs-2.1.1-linux-x86_64.tar.bz2
+FROM builder AS development
+
+# Add the current apps files into docker image
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ENV PATH /usr/src/app/bin:$PATH
+
+# Install latest bundler
+RUN bundle config --global silence_root_warning 1
 
 WORKDIR /usr/src/app
 
@@ -31,8 +38,8 @@ COPY . .
 
 ENV PATH ./bin:$PATH
 
-ENV DOCKER_LAND=true
+RUN ln -s /usr/bin/chromedriver /usr/local/bin/chromedriver
 
-RUN apt-get install cron -q -y 
+ENV DOCKER_LAND=true
 
 CMD ["bin/whenever-cron"]

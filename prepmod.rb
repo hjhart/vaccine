@@ -1,4 +1,4 @@
-require './shared'
+require_relative './shared'
 
 # cURL (GET )
 def send_request
