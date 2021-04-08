@@ -13,6 +13,9 @@ if defined?(PryByebug)
   Pry.commands.alias_command 'f', 'finish'
 end
 
+Kimurai.configure do |config|
+  config.log_level = :info
+end
 
 def prowl_send(application, message)
   puts "Sent message for #{application}"
