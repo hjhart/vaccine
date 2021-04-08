@@ -1,0 +1,14 @@
+#!/bin/bash
+cd "$(dirname "$0")/.."
+set -e
+
+OS=$(uname -s)
+
+if [ "$OS" != "Linux" ]; then
+  echo "Running cronjobs for Reef is only supported on Linux"
+  exit 1
+fi
+
+bundle exec whenever --update-crontab
+crontab -l
+exec crond -f
