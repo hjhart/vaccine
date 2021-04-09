@@ -38,7 +38,7 @@ class RiteAidSpider < Kimurai::Base
       if response.match(/Apologies, due to high demand/)
         next
       else
-        prowl_send("Rite Aid v2", "Appointments available #{el.native.text} #{@start_urls}")
+        prowl_send("Rite Aid v2", "Appointments available #{el.native.text} https://www.riteaid.com/pharmacy/apt-scheduler")
       end
     end
   end

@@ -45,5 +45,5 @@ end
 availability = send_request
 
 if(availability == 1) 
-  prowl_send("Albertsons Available", "With availability #{availability}")
+  prowl_send("Albertsons Available", "With availability #{availability} https://www.mhealthappointments.com/rest/searchCompany/searchLocation?zipcode=98144&distance=50&_=1617576760078")
 end

@@ -8,19 +8,39 @@
 # set :output, "/path/to/my/cron_log.log"
 #
 
-every 10.minutes do
+every '0,10,20,30,40,50 * * * *' do
   command "ruby /usr/src/app/fred-hutch.rb"
-  command "ruby /usr/src/app/rite-aid-vaccine.rb"
-  command "ruby /usr/src/app/rite-aid-v2.rb 98027"
-  command "ruby /usr/src/app/rite-aid-v2.rb 98144"
-  command "ruby /usr/src/app/rite-aid-v2.rb 98402"
-  command "ruby /usr/src/app/cvs.rb"
-  command "ruby /usr/src/app/albertsons.rb"
+end
+
+every '1,11,21,31,41,51 * * * *' do
   command "ruby /usr/src/app/prepmod.rb"
 end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
+
+every '2,12,22,32,42,52 * * * *' do
+  command "ruby /usr/src/app/albertsons.rb"
+end
+
+every '3,13,23,33,43,53 * * * *' do
+end
+
+every '4,14,24,34,44,54 * * * *' do
+end
+
+every '5,15,25,35,45,55 * * * *' do
+  command "ruby /usr/src/app/rite-aid-v2.rb 98144"
+end
+
+every '6,16,26,36,46,56 * * * *' do
+  command "ruby /usr/src/app/cvs.rb"
+end
+
+every '7,17,27,37,47,57 * * * *' do
+end
+
+every '8,18,28,38,48,58 * * * *' do
+end
+
+every '9,19,29,39,49,59 * * * *' do
+end
 
 # Learn more: http://github.com/javan/whenever

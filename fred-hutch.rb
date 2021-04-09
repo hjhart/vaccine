@@ -20,7 +20,7 @@ class FredHutchSpider < Kimurai::Base
     appointments_tomorrow = !availability_response.match(/No availability tomorrow/)
     
     if (appointments_today || appointments_tomorrow)
-      prowl_send("Fred Hutch", "Appointments available #{availability_response} #{@start_urls}")
+      prowl_send("Fred Hutch", "Appointments available #{availability_response} https://www.solvhealth.com/book-online/AM8450")
     end
   end
 end
