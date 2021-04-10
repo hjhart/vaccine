@@ -16,8 +16,8 @@ class FredHutchSpider < Kimurai::Base
     response = browser.current_response
     availability_response = response.css('[data-testid=booking-time-selector]').inner_text
     
-    appointments_today = !availability_response.match(/No availability today/)
-    appointments_tomorrow = !availability_response.match(/No availability tomorrow/)
+    appointments_today = !availability_response.match(/No availability today|Clinic Closed/)
+    appointments_tomorrow = !availability_response.match(/No availability tomorrow|Clinic Closed/)
     
     if (appointments_today || appointments_tomorrow)
       prowl_send("Fred Hutch", "Appointments available #{availability_response} https://www.solvhealth.com/book-online/AM8450")
