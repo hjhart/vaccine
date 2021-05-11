@@ -9,29 +9,30 @@
 #
 
 every '0,10,20,30,40,50 * * * *' do
-  command "ruby /usr/src/app/fred-hutch.rb"
+  # command "ruby /usr/src/app/fred-hutch.rb"
 end
 
 every '1,11,21,31,41,51 * * * *' do
-  command "ruby /usr/src/app/prepmod.rb"
+  # command "ruby /usr/src/app/prepmod.rb"
 end
 
 every '2,12,22,32,42,52 * * * *' do
-  command "ruby /usr/src/app/albertsons.rb"
+  # command "ruby /usr/src/app/albertsons.rb"
 end
 
 every '3,13,23,33,43,53 * * * *' do
+  command "ruby /usr/src/app/wastatepark.rb"
 end
 
 every '4,14,24,34,44,54 * * * *' do
 end
 
 every '5,15,25,35,45,55 * * * *' do
-  command "ruby /usr/src/app/rite-aid-v2.rb 98144"
+  # command "ruby /usr/src/app/rite-aid-v2.rb 98144"
 end
 
 every '6,16,26,36,46,56 * * * *' do
-  command "ruby /usr/src/app/cvs.rb"
+  # command "ruby /usr/src/app/cvs.rb"
 end
 
 every '7,17,27,37,47,57 * * * *' do
