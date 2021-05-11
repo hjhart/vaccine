@@ -5,6 +5,7 @@ require 'net/https'
 require 'pry'
 require 'json'
 require 'kimurai'
+require 'optparse'
 
 if defined?(PryByebug)
   Pry.commands.alias_command 'c', 'continue'

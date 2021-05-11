@@ -1,11 +1,5 @@
 # campground.rb
 require_relative "shared"
-require 'fileutils'
-require 'byebug'
-require 'dotenv/load'
-require 'optparse'
-
-
 class Campground < Kimurai::Base
   DEFAULT_WAIT_TIME = 10
   attr_accessor :options
@@ -70,8 +64,7 @@ class Campground < Kimurai::Base
 
   def select_list_view()
     begin
-      list_view_button = browser.all(:css, '#list-view-button', text: 'List View', wait: 1.5).first
-      list_view_button.click
+      browser.find(:css, "#list-view-button").click
     rescue Capybara::ElementNotFound => e
       logger.warn "Unable to find 'List View' button"      
     end 
