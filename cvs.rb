@@ -44,6 +44,6 @@ response["responsePayloadData"]["data"]["WA"].each { |location| puts "#{location
 response["responsePayloadData"]["data"]["WA"].each { |location| payload << "#{location['city']} #{location['status']}" if location["status"] != "Fully Booked" }
 
 if !payload.empty?
-  prowl_send("CVS Available", "With availability #{payload.join(', ')} https://www.cvs.com/immunizations/covid-19-vaccine.vaccine-status.WA.json?vaccineinfo")
+  prowl_send("CVS Available", "With availability #{payload.join(', ')} https://www.cvs.com/immunizations/covid-19-vaccine")
 end
 

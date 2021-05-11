@@ -2,7 +2,7 @@ require_relative './shared'
 
 # cURL (GET )
 def send_request
-  uri = URI('https://prepmod.doh.wa.gov/clinic/search?location=98144&search_radius=100+miles&q%5Bvenue_search_name_or_venue_name_i_cont%5D=&clinic_date_eq%5Byear%5D=2021&clinic_date_eq%5Bmonth%5D=4&clinic_date_eq%5Bday%5D=15&q%5Bvaccinations_name_i_cont%5D=&commit=Search#search_results')
+  uri = URI('https://prepmod.doh.wa.gov/clinic/search?location=98144&search_radius=25+miles&q%5Bvenue_search_name_or_venue_name_i_cont%5D=&clinic_date_eq%5Byear%5D=2021&clinic_date_eq%5Bmonth%5D=4&clinic_date_eq%5Bday%5D=15&q%5Bvaccinations_name_i_cont%5D=&commit=Search#search_results')
 
   # Create client
   http = Net::HTTP.new(uri.host, uri.port)
@@ -51,7 +51,7 @@ clinics = parsed_html.css('.justify-between.pt-4.pb-4.border-b').each do |clinic
     payload << "Linky: https://prepmod.doh.wa.gov#{booking_link.attr('href').value}"
     the_rest_of_the_text = clinic.css('p').flat_map(&:inner_text)
     payload << the_rest_of_the_text
-    payload << "All results: https://prepmod.doh.wa.gov/clinic/search?location=98144&search_radius=100+miles&q%5Bvenue_search_name_or_venue_name_i_cont%5D=&clinic_date_eq%5Byear%5D=2021&clinic_date_eq%5Bmonth%5D=4&clinic_date_eq%5Bday%5D=15&q%5Bvaccinations_name_i_cont%5D=&commit=Search#search_results"
+    payload << "All results: https://prepmod.doh.wa.gov/clinic/search?location=98144&search_radius=25+miles&q%5Bvenue_search_name_or_venue_name_i_cont%5D=&clinic_date_eq%5Byear%5D=2021&clinic_date_eq%5Bmonth%5D=4&clinic_date_eq%5Bday%5D=15&q%5Bvaccinations_name_i_cont%5D=&commit=Search#search_results"
   end
 end
 
