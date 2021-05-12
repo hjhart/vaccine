@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker build . --tag hjhart/vaccine:latest
+docker push hjhart/vaccine:latest
