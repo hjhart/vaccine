@@ -47,16 +47,17 @@ class Campground < Kimurai::Base
   @start_urls = [start_url.to_s]
 
   def parse(response, url:, data: {})    
+    dismiss_warning_if_exists
     select_list_view
     response = browser.current_response
     availability_text = browser.all(:css, ".availability-panel").first.text
 
-    unless availability_text.include? "No Available Sites"
-      debugger
-      prowl_send("Campground available", "Blake island campground available fathers day")
-      logger.info "Availability found for dates!"
-    else
+    if availability_text.include? "No Available Sites"
+      # prowl_send("Nothing available available", "Blake island campground not available for fathers day")
       logger.info "No availability found for dates"
+    else
+      prowl_send("Campground available", "Blake island campground available for fathers day")
+      logger.info "Availability found for dates!"
     end
   end
 
@@ -67,6 +68,14 @@ class Campground < Kimurai::Base
       browser.find(:css, "#list-view-button").click
     rescue Capybara::ElementNotFound => e
       logger.warn "Unable to find 'List View' button"      
+    end 
+  end
+
+  def dismiss_warning_if_exists()
+    begin
+      browser.find(:css, "[for=acknowledgement-input]").click
+    rescue Capybara::ElementNotFound => e
+      logger.warn "Unable to find 'Park Alets' checkbox"      
     end 
   end
 
