@@ -61,6 +61,7 @@ class Campground < Kimurai::Base
     end
   rescue => e
     prowl_send "Illahee", "Unexpected error scraping #{e.message}"
+    raise e
   end
 
   private

@@ -60,7 +60,8 @@ class Campground < Kimurai::Base
       click_on_first_result_and_check_for_ada
     end
   rescue => e
-    prowl_send "Deception Pass", "Unexpected error scraping #{e.message}"
+    prowl_send "Deception Pass", "Unexpected error scraping #{e.class}: #{e.message}"
+    raise e
   end
 end
 

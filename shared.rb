@@ -6,6 +6,7 @@ require 'pry'
 require 'json'
 require 'kimurai'
 require 'optparse'
+require_relative './url_generator'
 
 if defined?(PryByebug)
   Pry.commands.alias_command 'c', 'continue'
@@ -45,10 +46,10 @@ end
 def availability_element
   browser.find(:css, ".availability-panel")
 rescue Capybara::ElementNotFound => e
-  logger.warn("Illahee campground available")
+  logger.warn("Availability element not found. Campground may be available.")
 end
 
-def select_list_view()
+def select_list_view
   begin
     browser.find(:css, "#list-view-button").click
   rescue Capybara::ElementNotFound => e
@@ -56,8 +57,9 @@ def select_list_view()
   end 
 end
 
-def dismiss_warning_if_exists()
+def dismiss_warning_if_exists
   begin
+    sleep 1
     browser.find(:css, "[for=acknowledgement-input]").click
   rescue Capybara::ElementNotFound => e
     logger.warn "Unable to find 'Park Alerts' checkbox"      
