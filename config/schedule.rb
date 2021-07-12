@@ -21,11 +21,11 @@ every '2,12,22,32,42,52 * * * *' do
 end
 
 every '3,13,23,33,43,53 * * * *' do
-  # command "ruby /usr/src/app/albertsons.rb"
+  command 'ruby /usr/src/app/jarrell-cove.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
 end
 
 every '4,14,24,34,44,54 * * * *' do
-  command 'ruby /usr/src/app/blake-island.rb --start-date "18-06-2021" --end-date "20-06-2021" --party-size 4'
+  # command 'ruby /usr/src/app/blake-island.rb --start-date "18-06-2021" --end-date "20-06-2021" --party-size 4'
 end
 
 every '5,15,25,35,45,55 * * * *' do

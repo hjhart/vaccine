@@ -1,0 +1,12 @@
+name: hjhart-campground
+region: nyc
+workers:
+- image:
+    registry: hjhart
+    registry_type: DOCKER_HUB
+    repository: vaccine
+    tag: latest
+  instance_count: 1
+  instance_size_slug: basic-xs
+  name: hjhart-campground
+  source_dir: /

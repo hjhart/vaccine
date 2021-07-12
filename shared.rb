@@ -22,7 +22,7 @@ def prowl_send(application, message)
   puts "Sent message for #{application}"
   Prowl.add(
     :apikey => "431433f9f47b1fa61fb4ef224670a3b4550f8423",
-    :application => "Vaccines",
+    :application => "Campground",
     :event => application,
     :description => message
   )

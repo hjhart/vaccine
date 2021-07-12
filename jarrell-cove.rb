@@ -62,12 +62,15 @@ class Campground < Kimurai::Base
       sleep 2
 
       response = browser.current_response
-        if response.inner_text.include? "This site is ADA only."
+      if response.inner_text.include? "This site is ADA only."
+        prowl_send "Jarrell Cove", "There is one campground available and it is ADA only."
         logger.info "There is one campground available and it is ADA only."
       else
+        prowl_send "Jarrell Cove", "There is one campground available."
         logger.info "There is one campground available."
       end
     elsif response.css("[role=listitem]").count > 1
+      prowl_send "Jarrell Cove",  "There is more than one campground available at Jarrel Cove."
       logger.info "There is more than one campground available at Jarrel Cove."
     else
       logger.info "No campground were available at Jarrell Cove"

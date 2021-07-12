@@ -15,3 +15,7 @@ docker push hjhart/vaccine:latest
 ```
 
 HEADLESS=false ruby blake-island.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size 2
+
+```bash
+doctl apps create --spec config/campground.rb
+```
