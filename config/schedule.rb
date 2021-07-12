@@ -9,7 +9,7 @@
 #
 
 every '0,10,20,30,40,50 * * * *' do
-  # command "ruby /usr/src/app/fred-hutch.rb"
+  command 'ruby /usr/src/app/penrose-point.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
 end
 
 every '1,11,21,31,41,51 * * * *' do
