@@ -30,7 +30,7 @@ end
 
 every '5,15,25,35,45,55 * * * *' do
   # command "ruby /usr/src/app/rite-aid-v2.rb 98144"
-  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=blake_island'
+  # command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=blake_island'
 
 end
 
