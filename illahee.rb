@@ -4,46 +4,10 @@ class Campground < Kimurai::Base
   DEFAULT_WAIT_TIME = 10
   attr_accessor :options
 
-  @name = "campground"
   @engine = :selenium_chrome
-
-  options = {}
-  OptionParser.new do |opts|
-    opts.banner = "Usage: illahee.rb [options]"
-
-    opts.on("-sSTARTDATE", "--start-date=STARTDATE", "Start date") do |v|
-      options[:start_date] = Date.parse(v)
-    end
-
-    opts.on("-eENDDATE", "--end-date=ENDDATE", "End date") do |v|
-      options[:end_date] = Date.parse(v)
-    end
-
-    opts.on("-pSIZE", "--party-size=SIZE", "Party Size (default 2)") do |v|
-      options[:party_size] = v || 2
-    end
-  end.parse!
-
-  # NW map "-2147483346"
-  # SW map "-2147483336"
-
-  params = {
-    resourceLocationId: "-2147483607",
-    mapId: "-2147483380",
-    searchTabGroupId: "0",
-    bookingCategoryId: "0",
-    startDate: options[:start_date].to_s,
-    endDate: options[:end_date].to_s,
-    nights: "2",
-    isReserving: "true",
-    equipmentId: "-32768",
-    subEquipmentId: "-32768",
-    partySize: options[:party_size].to_s,
-    searchTime: Time.now.iso8601,
-  }
-
-  start_url = URI::HTTPS.build(host: "washington.goingtocamp.com", path: "/create-booking/results", query: params.to_query)
-  @start_urls = [start_url.to_s]
+  @url_generator = UrlGenerator.new(campground: "deception-pass", campground_id: "-2147483607", map_id: "-2147483380")
+  @name = @url_generator.name
+  @start_urls = [@url_generator.url]
 
   def parse(response, url:, data: {})    
     dismiss_warning_if_exists
@@ -60,7 +24,7 @@ class Campground < Kimurai::Base
       click_on_first_result_and_check_for_ada
     end
   rescue => e
-    prowl_send "Illahee", "Unexpected error scraping #{e.message}"
+    prowl_send "Illahee", "Unexpected error scraping #{e.class}: #{e.message}"
     raise e
   end
 
