@@ -44,6 +44,7 @@ every '8,18,28,38,48,58 * * * *' do
 end
 
 every '9,19,29,39,49,59 * * * *' do
+  command 'ruby /usr/src/app/deception-pass.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
 end
 
 # Learn more: http://github.com/javan/whenever
