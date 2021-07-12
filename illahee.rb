@@ -9,7 +9,7 @@ class Campground < Kimurai::Base
 
   options = {}
   OptionParser.new do |opts|
-    opts.banner = "Usage: blake-island.rb [options]"
+    opts.banner = "Usage: illahee.rb [options]"
 
     opts.on("-sSTARTDATE", "--start-date=STARTDATE", "Start date") do |v|
       options[:start_date] = Date.parse(v)
@@ -26,9 +26,10 @@ class Campground < Kimurai::Base
 
   # NW map "-2147483346"
   # SW map "-2147483336"
+
   params = {
-    resourceLocationId: "-2147483604",
-    mapId: "-2147483442",
+    resourceLocationId: "-2147483607",
+    mapId: "-2147483380",
     searchTabGroupId: "0",
     bookingCategoryId: "0",
     startDate: options[:start_date].to_s,
@@ -48,26 +49,18 @@ class Campground < Kimurai::Base
     dismiss_warning_if_exists
     select_list_view
 
-    # click into main campground area
-    browser.find(:css, "[role=listitem]", match: :first).click
-
     sleep 2
 
     response = browser.current_response
-    # debugger
 
-    if response.css("[role=listitem]").count == 1
-      logger.info "One campground found. "
-      browser.find(:css, "[role=listitem]", match: :first).click
-      click_on_first_result_and_check_for_ada
-    elsif response.css("[role=listitem]").count > 1
-      prowl_send "Jarrell Cove",  "There is more than one campground available at Jarrel Cove."
-      logger.info "There is more than one campground available at Jarrel Cove."
+    if response.inner_text.include? "No Available"
+      logger.info "No campgrounds found. "
     else
-      logger.info "No campground were available at Jarrell Cove"
+      logger.info "Some campgrounds found. "
+      click_on_first_result_and_check_for_ada
     end
   rescue => e
-    prowl_send "Jarrell Cove", "Unexpected error scraping #{e.message}"
+    prowl_send "Illahee", "Unexpected error scraping #{e.message}"
   end
 
   private
@@ -75,7 +68,7 @@ class Campground < Kimurai::Base
   def availability_element
     browser.find(:css, ".availability-panel")
   rescue Capybara::ElementNotFound => e
-    logger.warn("Jarrell Cove campground available")
+    logger.warn("Illahee campground available")
   end
 
   def select_list_view()
