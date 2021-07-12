@@ -23,13 +23,12 @@ class Campground < Kimurai::Base
       options[:party_size] = v || 2
     end
 
-    opts.on("-cID", "--campground-id=ID", "Campground ID (default is Blake Island)") do |v|
-      options[:campground_id] = v || -2147483640
+    opts.on("-cID", "--campground-id=ID", "Campground ID") do |v|
+      options[:campground_id] = v
     end
   end.parse!
 
   params = { 
-    "resourceLocationId"=> options[:campground_id],
     "mapId" => -2147483404,
     "searchTabGroupId" => 0,
     "bookingCategoryId" => 0,
@@ -43,6 +42,25 @@ class Campground < Kimurai::Base
     "partySize" => options[:party_size],
     "searchTime" => "2021-04-08T22:37:30.608"
   }
+
+  # NW map "-2147483346"
+  # SW map "-2147483336"
+  params = {
+    bookingCategoryId: 0,
+    equipmentId: "-32768",
+    isReserving: "true",
+    mapId: "-2147483346",
+    nights: "2",
+    partySize: options[:party_size],
+    searchTabGroupId: "0",
+    searchTime: Time.now.iso8601,
+    startDate: options[:start_date].to_s,
+    endDate: options[:end_date].to_s,
+    subEquipmentId: "-32767",
+  }
+
+  params.merge!("resourceLocationId"=> options[:campground_id]) if options[:campground_id]
+
   start_url = URI::HTTPS.build(host: "washington.goingtocamp.com", path: "/create-booking/results", query: params.to_query)
   @start_urls = [start_url.to_s]
 
@@ -50,18 +68,25 @@ class Campground < Kimurai::Base
     dismiss_warning_if_exists
     select_list_view
     response = browser.current_response
-    availability_text = browser.all(:css, ".availability-panel").first.text
 
+    availability_text = availability_element.text
+    
     if availability_text.include? "No Available Sites"
       # prowl_send("Nothing available available", "Blake island campground not available for fathers day")
       logger.info "No availability found for dates"
     else
-      prowl_send("Campground available", "Blake island campground available for fathers day")
+      logger.warn("Campground available", "Blake island campground available for fathers day")
       logger.info "Availability found for dates!"
     end
   end
 
   private
+
+  def availability_element
+    browser.find(:css, ".availability-panel")
+  rescue Capybara::ElementNotFound => e
+    logger.warn("Campground maybe available", "Blake island campground available for fathers day")
+  end
 
   def select_list_view()
     begin
@@ -75,7 +100,7 @@ class Campground < Kimurai::Base
     begin
       browser.find(:css, "[for=acknowledgement-input]").click
     rescue Capybara::ElementNotFound => e
-      logger.warn "Unable to find 'Park Alets' checkbox"      
+      logger.warn "Unable to find 'Park Alerts' checkbox"      
     end 
   end
 
