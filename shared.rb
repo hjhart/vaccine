@@ -30,7 +30,6 @@ def prowl_send(application, message)
 end
 
 def click_on_first_result_and_check_for_ada
-  puts "what the hell is happening?!"
   browser.find(:css, "[role=listitem]", match: :first).click
   sleep 2
   
@@ -61,7 +60,7 @@ def dismiss_warning_if_exists
   begin
     sleep 1
     browser.find(:css, "[for=acknowledgement-input]").click
-  rescue Capybara::ElementNotFound => e
+  rescue Capybara::ElementNotFound, Selenium::WebDriver::Error::ElementClickInterceptedError => e
     logger.warn "Unable to find 'Park Alerts' checkbox"      
   end 
 end

@@ -27,30 +27,6 @@ class Campground < Kimurai::Base
     prowl_send "Illahee", "Unexpected error scraping #{e.class}: #{e.message}"
     raise e
   end
-
-  private
-
-  def availability_element
-    browser.find(:css, ".availability-panel")
-  rescue Capybara::ElementNotFound => e
-    logger.warn("Illahee campground available")
-  end
-
-  def select_list_view()
-    begin
-      browser.find(:css, "#list-view-button").click
-    rescue Capybara::ElementNotFound => e
-      logger.warn "Unable to find 'List View' button"      
-    end 
-  end
-
-  def dismiss_warning_if_exists()
-    begin
-      browser.find(:css, "[for=acknowledgement-input]").click
-    rescue Capybara::ElementNotFound => e
-      logger.warn "Unable to find 'Park Alerts' checkbox"      
-    end 
-  end
 end
 
 Campground.crawl!
