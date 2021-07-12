@@ -32,8 +32,16 @@ class Campground < Kimurai::Base
     if response.css("[role=listitem]").count == 1
       logger.info "One campground found. "
       browser.find(:css, "[role=listitem]", match: :first).click
-      click_on_first_result_and_check_for_ada
-    elsif response.css("[role=listitem]").count > 1
+      sleep 2
+      
+      response = browser.current_response
+      if response.inner_text.include? "This site is ADA only."
+        logger.info "There is one campground available and it is ADA only."
+      else
+        prowl_send self.class.name, "There is one campground available."
+        logger.info "There is one campground available."
+      end
+        elsif response.css("[role=listitem]").count > 1
       prowl_send self.class.name,  "There is more than one campground available."
       logger.info "There is more than one campground available."
     else

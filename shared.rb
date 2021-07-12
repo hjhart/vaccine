@@ -29,18 +29,6 @@ def prowl_send(application, message)
   )
 end
 
-def click_on_first_result_and_check_for_ada
-  browser.find(:css, "[role=listitem]", match: :first).click
-  sleep 2
-  
-  response = browser.current_response
-  if response.inner_text.include? "This site is ADA only."
-    logger.info "There is one campground available and it is ADA only."
-  else
-    prowl_send "Jarrell Cove", "There is one campground available."
-    logger.info "There is one campground available."
-  end
-end
 
 def availability_element
   browser.find(:css, ".availability-panel")
