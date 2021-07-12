@@ -5,7 +5,7 @@ class Campground < Kimurai::Base
   attr_accessor :options
 
   @engine = :selenium_chrome
-  @url_generator = UrlGenerator.new(campground: "deception-pass", campground_id: "-2147483604", map_id: "-2147483442")
+  @url_generator = UrlGenerator.new()
   @name = @url_generator.name
   @start_urls = [@url_generator.url]
 
@@ -13,8 +13,16 @@ class Campground < Kimurai::Base
     dismiss_warning_if_exists
     select_list_view
 
-    # click into main campground area
-    browser.find(:css, "[role=listitem]", match: :first).click
+    sleep 2
+
+    response = browser.current_response
+
+    if response.inner_text.include? "No Available"
+      logger.info "No campgrounds found. "
+    else
+      logger.info "Some campgrounds found. "
+      browser.find(:css, "[role=listitem]", match: :first).click
+    end
 
     sleep 2
 
@@ -26,13 +34,13 @@ class Campground < Kimurai::Base
       browser.find(:css, "[role=listitem]", match: :first).click
       click_on_first_result_and_check_for_ada
     elsif response.css("[role=listitem]").count > 1
-      prowl_send "Jarrell Cove",  "There is more than one campground available at Jarrel Cove."
-      logger.info "There is more than one campground available at Jarrel Cove."
+      prowl_send self.class.name,  "There is more than one campground available."
+      logger.info "There is more than one campground available."
     else
-      logger.info "No campground were available at Jarrell Cove"
+      logger.info "No campground were available."
     end
   rescue => e
-    prowl_send "Jarrell Cove", "Unexpected error scraping #{e.class}: #{e.message}"
+    prowl_send self.class.name, "Unexpected error scraping #{e.class}: #{e.message}"
     raise e
   end
 end

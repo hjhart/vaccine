@@ -9,7 +9,7 @@
 #
 
 every '0,10,20,30,40,50 * * * *' do
-  command 'ruby /usr/src/app/penrose-point.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=penrose_point'
 end
 
 every '1,11,21,31,41,51 * * * *' do
@@ -21,7 +21,7 @@ every '2,12,22,32,42,52 * * * *' do
 end
 
 every '3,13,23,33,43,53 * * * *' do
-  command 'ruby /usr/src/app/jarrell-cove.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=jarrell_cove'
 end
 
 every '4,14,24,34,44,54 * * * *' do
@@ -30,21 +30,23 @@ end
 
 every '5,15,25,35,45,55 * * * *' do
   # command "ruby /usr/src/app/rite-aid-v2.rb 98144"
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=blake_island'
+
 end
 
 every '6,16,26,36,46,56 * * * *' do
-  # command "ruby /usr/src/app/cvs.rb"
+  # command "ruby /usr/src/app/cvs.rb"campground: "blake-island", campground_id: "-2147483640", map_id: "-2147483404"
 end
 
 every '7,17,27,37,47,57 * * * *' do
-  command 'ruby /usr/src/app/illahee.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=illahee'
 end
 
 every '8,18,28,38,48,58 * * * *' do
 end
 
 every '9,19,29,39,49,59 * * * *' do
-  command 'ruby /usr/src/app/deception-pass.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2'
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=deception_pass'
 end
 
 # Learn more: http://github.com/javan/whenever
