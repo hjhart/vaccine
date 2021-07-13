@@ -20,12 +20,12 @@ HEADLESS=false ruby blake-island.rb --start-date "20-08-2021" --end-date "22-08-
 
 ## Deploy new instance to Digital Ocean
 
-```bash
 doctl apps create --spec config/campground.rb
-```
+
+````
 
 ## New deployment after ./script/deploy
 
 ```bash
 ./script/deploy
-```
+````
