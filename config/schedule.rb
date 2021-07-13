@@ -8,8 +8,12 @@
 # set :output, "/path/to/my/cron_log.log"
 #
 
-every 1.hour, at: 15 do
+every 1.hour, at: 0 do
   command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=penrose_point'
+end
+
+every 1.hour, at: 15 do
+  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=deception_pass'
 end
 
 every 1.hour, at: 30 do
