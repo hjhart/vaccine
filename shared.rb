@@ -39,6 +39,10 @@ end
 def select_list_view
   begin
     browser.find(:css, "#list-view-button").click
+  rescue Selenium::WebDriver::Error::ElementClickInterceptedError => e
+    logger.warn "Something was blocking the list view, trying again"
+    sleep 2
+    browser.find(:css, "#list-view-button").click
   rescue Capybara::ElementNotFound => e
     logger.warn "Unable to find 'List View' button"      
   end 

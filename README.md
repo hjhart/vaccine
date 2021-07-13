@@ -28,5 +28,4 @@ doctl apps create --spec config/campground.rb
 
 ```bash
 ./script/deploy
-doctl apps create-deployment 59f8270d-9812-4ffa-b3a6-fbc3deaee65f
 ```
