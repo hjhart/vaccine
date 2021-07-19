@@ -7,7 +7,7 @@ docker run vaccine:latest
 ```
 
 ```bash
-docker run --rm hjhart/vaccine:latest ruby /usr/src/app/blake-island.rb -c -2147483640 --start-date "18-06-2021" --end-date "20-06-2021" --party-size 4
+docker run --rm hjhart/vaccine:latest ruby /usr/src/app/wa-state-campground.rb -c blake_island --start-date "18-06-2021" --end-date "20-06-2021" --party-size 4
 ```
 
 ```bash
@@ -15,7 +15,7 @@ docker run --rm hjhart/vaccine:latest ruby /usr/src/app/blake-island.rb -c -2147
 ```
 
 ```
-HEADLESS=false ruby blake-island.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size 2
+HEADLESS=false ruby wa-state-campground.rb -c blake_island --start-date "20-08-2021" --end-date "22-08-2021" --party-size 2
 ```
 
 ## Deploy new instance to Digital Ocean

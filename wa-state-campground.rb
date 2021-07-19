@@ -13,7 +13,7 @@ class Campground < Kimurai::Base
     dismiss_warning_if_exists
     select_list_view
 
-    sleep 2
+    sleep 4
 
     response = browser.current_response
 
@@ -21,7 +21,14 @@ class Campground < Kimurai::Base
       logger.info "No campgrounds found. "
     else
       logger.info "Some campgrounds found. "
-      browser.find(:css, "[role=listitem]", match: :first).click
+      begin 
+        browser.find(:css, "[role=listitem]", match: :first).click
+      rescue Capybara::ElementNotFound => e
+        logger.info "Some campgrounds found, but received Capybara::ElementNotFound. begin inner text"
+        logger.info response.inner_text
+        logger.info "end inner text"
+        prowl_send self.class.name, "Some campgrounds found, but received Capybara::ElementNotFound. #{response.inner_text}"
+      end
     end
 
     sleep 2
