@@ -19,13 +19,14 @@ Kimurai.configure do |config|
   config.log_level = :info
 end
 
-def prowl_send(application, message)
+def prowl_send(application, message, url = nil)
   logger.info "Sent message for #{application}"
   Prowl.add(
     :apikey => "431433f9f47b1fa61fb4ef224670a3b4550f8423",
     :application => "Campground",
     :event => application,
-    :description => message
+    :description => message,
+    :url => url
   )
 end
 

@@ -9,20 +9,20 @@
 #
 
 every 1.hour, at: 0 do
-  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=penrose_point'
+  command 'ruby /usr/src/app/recreation_gov.rb -cohanapecosh'
 end
 
 every 1.hour, at: 15 do
-  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=deception_pass'
+  command 'ruby /usr/src/app/recreation_gov.rb -cbig_creek'
 end
 
 every 1.hour, at: 30 do
-  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=jarrell_cove'
+  command 'ruby /usr/src/app/recreation_gov.rb -ccougar_rock'
 end
 
 
 every 1.hour, at: 45 do
-  command 'ruby /usr/src/app/wa-state-campground.rb --start-date "20-08-2021" --end-date "22-08-2021" --party-size=2 --campground=illahee'
+  command 'ruby /usr/src/app/recreation_gov.rb -ctinkham'
 end
 
 

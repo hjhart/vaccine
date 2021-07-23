@@ -3,7 +3,7 @@
 ```
 
 ```bash
-docker run vaccine:latest
+docker run hjhart/vaccine:latest
 ```
 
 ```bash
@@ -16,6 +16,10 @@ docker run --rm hjhart/vaccine:latest ruby /usr/src/app/wa-state-campground.rb -
 
 ```
 HEADLESS=false ruby wa-state-campground.rb -c blake_island --start-date "20-08-2021" --end-date "22-08-2021" --party-size 2
+```
+
+```
+HEADLESS=false kimurai console --engine selenium_chrome --url https://www.recreation.gov/camping/campsites/77506
 ```
 
 ## Deploy new instance to Digital Ocean
