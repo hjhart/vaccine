@@ -7,6 +7,7 @@ class RecreationCampgroundUrlGenerator
     lake_creek: 273975,
     ohanapecosh: 232465,
     tinkham: 232113,
+    denny_creek: 232035,
   }.with_indifferent_access
 
 

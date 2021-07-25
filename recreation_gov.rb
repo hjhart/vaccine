@@ -17,16 +17,33 @@ class Campground < Kimurai::Base
     urls = campground_ids.map { |id| base_url + id }
 
     logger.info "Parsing: #{urls.join(', ')}"
-    in_parallel(:parse_campground_page, urls, threads: 3)
+    urls.each do |url|
+      CampsiteSpider.parse!(:parse, url: url)
+    end
+    # in_parallel(:parse_campground_page, urls, threads: 1)
   rescue => e
     # prowl_send self.class.name, "Unexpected error scraping #{e.class}: #{e.message}"
     logger.info "Unexpected error scraping #{e.class}: #{e.message}"
     raise e
   end
+end
 
-  def parse_campground_page(response, url:, data: {})
+class CampsiteSpider < Kimurai::Base
+  @engine = :selenium_chrome
+
+  def count_consecutive(days_remaining)
+    next_day = days_remaining.first
+    if next_day
+      following_days = days_remaining.slice(1, days_remaining.size)
+      1 + count_consecutive(following_days)
+    else
+      0
+    end
+  end
+
+  def parse(response, url: , data:)
     item = {}
-  weekend_dates = [
+    weekend_dates = [
       ["July 30, 2021", "July 31, 2021", "August 1, 2021"],
       ["August 6, 2021", "August 7, 2021", "August 8, 2021"],
       ["August 13, 2021", "August 14, 2021", "August 15, 2021"],
@@ -53,7 +70,6 @@ class Campground < Kimurai::Base
       days_available = [d1_available, d2_available, d3_available].select { |date| date }
 
       if days_available.size >= 3
-        # prowl_send self.class.name, "#{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})"
         prowl_send "#{self.class.name} #{url}", "===> #{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})", url 
         logger.info "===> #{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})"
       elsif days_available.size >= 1
@@ -63,7 +79,6 @@ class Campground < Kimurai::Base
       end
     end
   end
-
 end
 
 Campground.crawl!
