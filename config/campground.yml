@@ -1,8 +1,7 @@
 name: hjhart-vaccine
 region: sfo
 services:
-- http_port: 8080
-  image:
+- image:
     registry: hjhart
     registry_type: DOCKER_HUB
     repository: vaccine
