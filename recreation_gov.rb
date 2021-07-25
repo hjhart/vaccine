@@ -16,7 +16,7 @@ class Campground < Kimurai::Base
     base_url = "https://www.recreation.gov/camping/campsites/"
     urls = campground_ids.map { |id| base_url + id }
 
-    logger.info "Prasing: #{urls.join(', ')}"
+    logger.info "Parsing: #{urls.join(', ')}"
     in_parallel(:parse_campground_page, urls, threads: 3)
   rescue => e
     # prowl_send self.class.name, "Unexpected error scraping #{e.class}: #{e.message}"

@@ -1,12 +1,15 @@
-name: hjhart-campground
-region: nyc
-workers:
-- image:
+name: hjhart-vaccine
+region: sfo
+services:
+- http_port: 8080
+  image:
     registry: hjhart
     registry_type: DOCKER_HUB
     repository: vaccine
     tag: latest
   instance_count: 1
-  instance_size_slug: basic-xs
-  name: hjhart-campground
+  instance_size_slug: professional-m
+  name: hjhart-vaccine
+  routes:
+  - path: /
   source_dir: /
