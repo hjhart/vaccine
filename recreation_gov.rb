@@ -12,36 +12,33 @@ class Campground < Kimurai::Base
 
   def parse(response, url:, data: {})    
     # browser.click_on "Site Availability"
-    campground_ids = browser.all(:css, "[aria-label*='View details']").map { |el| el['id'] }.map { |id| id.split("-").last }
-    base_url = "https://www.recreation.gov/camping/campsites/"
-    urls = campground_ids.map { |id| base_url + id }
-
-    logger.info "Parsing: #{urls.join(', ')}"
-    urls.each do |url|
-      CampsiteSpider.parse!(:parse, url: url)
+    pagination_text = browser.find(:css, ".search-pagination-text").text
+    start_item, end_item, total_items = pagination_text.match(/(\d+) - (\d+) results of (\d+)/).captures
+    range = (0..total_items.to_i).step(10)
+    logger.info "Paginating through items: #{range}"
+    urls = range.map do |start|
+      "#{url}?start=#{start}"
+    end.each do |paginate_url|
+      request_to(:paginate_campground_sites, url: paginate_url, data: data)
     end
-    # in_parallel(:parse_campground_page, urls, threads: 1)
+  end
+
+
+  def paginate_campground_sites(response, url:, data:)
+    campground_ids = browser.all(:css, "[aria-label*='View details']").map { |el| el['id'] }.map { |id| id.split("-").last }
+    campsite_urls = campground_ids.map { |id| "https://www.recreation.gov/camping/campsites/#{id}" }
+
+    logger.info "Grabbing campsites: #{campground_ids}"
+    campsite_urls.each do |url|
+      request_to(:parse_campsite, url: url, data: data)
+    end
   rescue => e
     # prowl_send self.class.name, "Unexpected error scraping #{e.class}: #{e.message}"
     logger.info "Unexpected error scraping #{e.class}: #{e.message}"
     raise e
   end
-end
 
-class CampsiteSpider < Kimurai::Base
-  @engine = :selenium_chrome
-
-  def count_consecutive(days_remaining)
-    next_day = days_remaining.first
-    if next_day
-      following_days = days_remaining.slice(1, days_remaining.size)
-      1 + count_consecutive(following_days)
-    else
-      0
-    end
-  end
-
-  def parse(response, url: , data:)
+  def parse_campsite(response, url: , data:)
     item = {}
     weekend_dates = [
       ["July 30, 2021", "July 31, 2021", "August 1, 2021"],
@@ -73,6 +70,14 @@ class CampsiteSpider < Kimurai::Base
         prowl_send "#{self.class.name} #{url}", "===> #{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})", url 
         logger.info "===> #{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})"
       elsif days_available.size >= 1
+        if [d1_available, d2_available, d3_available] == [true, true, false] 
+          # prowl_send "#{self.class.name} #{url}", "2 consecutive days available on friday #{friday} and saturday #{saturday}", url 
+          logger.info "===> 2 consecutive days available on friday #{friday} and saturday #{saturday}"
+        end
+        if [d1_available, d2_available, d3_available] == [false, true, true]
+          # prowl_send "#{self.class.name} #{url}", " 2 consecutive days available on saturday #{saturday} and sunday #{sunday}", url 
+          logger.info "===> 2 consecutive days available on saturday #{saturday} and sunday #{sunday}"
+        end
         logger.info "==> #{days_available.size} days available on #{friday} (#{d1_available}) #{saturday} (#{d2_available}) #{sunday} (#{d3_available})"
       else
         logger.debug "=> Only #{days_available.size} days available on #{friday} - #{sunday}"

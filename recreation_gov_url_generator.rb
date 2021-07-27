@@ -8,6 +8,8 @@ class RecreationCampgroundUrlGenerator
     ohanapecosh: 232465,
     tinkham: 232113,
     denny_creek: 232035,
+    colonial_creek: 255201,
+    sol_duc: 251906,
   }.with_indifferent_access
 
 
