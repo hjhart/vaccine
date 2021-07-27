@@ -1,6 +1,6 @@
-name: hjhart-vaccine
+name: campgrounds
 region: sfo
-services:
+workers:
 - image:
     registry: hjhart
     registry_type: DOCKER_HUB
@@ -8,7 +8,5 @@ services:
     tag: latest
   instance_count: 1
   instance_size_slug: professional-m
-  name: hjhart-vaccine
-  routes:
-  - path: /
+  name: campgrounds
   source_dir: /

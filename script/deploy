@@ -2,4 +2,4 @@
 
 docker build . --tag hjhart/vaccine:latest
 docker push hjhart/vaccine:latest
-doctl apps create-deployment 7478cc5a-5667-498b-8f4c-081e78c0aec8
+doctl apps create-deployment $(doctl apps list --no-header | cut -d" " -f1)

@@ -12,17 +12,24 @@ every 1.hour, at: 0 do
   command 'ruby /usr/src/app/recreation_gov.rb -cohanapecosh'
 end
 
-every 1.hour, at: 15 do
+every 1.hour, at: 10 do
   command 'ruby /usr/src/app/recreation_gov.rb -cbig_creek'
+end
+
+every 1.hour, at: 20 do
+  command 'ruby /usr/src/app/recreation_gov.rb -ctinkham'
 end
 
 every 1.hour, at: 30 do
   command 'ruby /usr/src/app/recreation_gov.rb -ccougar_rock'
 end
 
+every 1.hour, at: 40 do
+  command 'ruby /usr/src/app/recreation_gov.rb -csol_duc'
+end
 
-every 1.hour, at: 45 do
-  command 'ruby /usr/src/app/recreation_gov.rb -ctinkham'
+every 1.hour, at: 50 do
+  command 'ruby /usr/src/app/recreation_gov.rb -ccolonial_creek'
 end
 
 
